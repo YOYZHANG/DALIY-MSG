@@ -2,7 +2,7 @@
   "name": "DALIY-MSG",
   "version": "1.0.0",
   "main": "index.js",
-  "repository": "https://github.com/YOYZHANG/DALIY-MSG.git",
+  "repository": "git://github.com/YOYZHANG/DALIY-MSG.git",
   "author": "YOYZHANG <alexuzhang@gmail.com>",
   "license": "MIT",
   "devDependencies": {
