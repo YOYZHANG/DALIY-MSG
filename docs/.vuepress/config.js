@@ -9,6 +9,11 @@ module.exports = {
         sidebar: [
             ["/", "1. 介绍"],
             {
+                title: "2021年6月",
+                collapsable: false,
+                children: [['/2021/06/13.md', '2021年6月13日']]
+            },
+            {
                 title: "2021年5月",
                 collapsable: false,
                 children: [['/2021/05/22.md', '2021年5月22日'], ['/2021/05/09.md', '2021年5月9日']]
