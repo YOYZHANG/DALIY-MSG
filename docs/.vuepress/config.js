@@ -11,7 +11,7 @@ module.exports = {
             {
                 title: "2021年6月",
                 collapsable: false,
-                children: [['/2021/06/13.md', '2021年6月13日']]
+                children: [['/2021/06/27.md', '2021年6月27日'], ['/2021/06/13.md', '2021年6月13日']]
             },
             {
                 title: "2021年5月",

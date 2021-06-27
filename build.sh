@@ -21,3 +21,8 @@ git push -f git@github.com:YOYZHANG/YOYZHANG.github.io.git master
 
 # 如果发布到 https://<USERNAME>.github.io/<REPO>
 # git push -f git@github.com:<USERNAME>/<REPO>.git master:gh-pages
+
+cd ./
+git add -A
+git commit -m 'deploy'
+git push -f git@github.com:YOYZHANG/DALIY-MSG master
