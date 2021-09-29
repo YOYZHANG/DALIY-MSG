@@ -4,12 +4,13 @@
 	var selectorInside;
 
 	Prism.languages.css.selector = {
-		pattern: Prism.languages.css.selector,
+		pattern: Prism.languages.css.selector.pattern,
+		lookbehind: true,
 		inside: selectorInside = {
 			'pseudo-element': /:(?:after|before|first-letter|first-line|selection)|::[-\w]+/,
 			'pseudo-class': /:[-\w]+/,
-			'class': /\.[-:.\w]+/,
-			'id': /#[-:.\w]+/,
+			'class': /\.[-\w]+/,
+			'id': /#[-\w]+/,
 			'attribute': {
 				pattern: RegExp('\\[(?:[^[\\]"\']|' + string.source + ')*\\]'),
 				greedy: true,
@@ -21,20 +22,20 @@
 						alias: 'keyword'
 					},
 					'namespace': {
-						pattern: /^(\s*)[-*\w\xA0-\uFFFF]*\|(?!=)/,
+						pattern: /^(\s*)(?:(?!\s)[-*\w\xA0-\uFFFF])*\|(?!=)/,
 						lookbehind: true,
 						inside: {
 							'punctuation': /\|$/
 						}
 					},
-					'attribute': {
-						pattern: /^(\s*)[-\w\xA0-\uFFFF]+/,
+					'attr-name': {
+						pattern: /^(\s*)(?:(?!\s)[-\w\xA0-\uFFFF])+/,
 						lookbehind: true
 					},
-					'value': [
+					'attr-value': [
 						string,
 						{
-							pattern: /(=\s*)[-\w\xA0-\uFFFF]+(?=\s*$)/,
+							pattern: /(=\s*)(?:(?!\s)[-\w\xA0-\uFFFF])+(?=\s*$)/,
 							lookbehind: true
 						}
 					],
@@ -55,7 +56,13 @@
 					lookbehind: true
 				}
 			],
-			'punctuation': /[()]/
+			'combinator': />|\+|~|\|\|/,
+
+			// the `tag` token has been existed and removed.
+			// because we can't find a perfect tokenize to match it.
+			// if you want to add it, please read https://github.com/PrismJS/prism/pull/2373 first.
+
+			'punctuation': /[(),]/,
 		}
 	};
 
@@ -63,18 +70,18 @@
 
 	Prism.languages.insertBefore('css', 'property', {
 		'variable': {
-			pattern: /(^|[^-\w\xA0-\uFFFF])--[-_a-z\xA0-\uFFFF][-\w\xA0-\uFFFF]*/i,
+			pattern: /(^|[^-\w\xA0-\uFFFF])--(?!\s)[-_a-z\xA0-\uFFFF](?:(?!\s)[-\w\xA0-\uFFFF])*/i,
 			lookbehind: true
 		}
 	});
 
 	var unit = {
-		pattern: /(\d)(?:%|[a-z]+)/,
+		pattern: /(\b\d+)(?:%|[a-z]+\b)/,
 		lookbehind: true
 	};
 	// 123 -123 .123 -.123 12.3 -12.3
 	var number = {
-		pattern: /(^|[^\w.-])-?\d*\.?\d+/,
+		pattern: /(^|[^\w.-])-?(?:\d+(?:\.\d+)?|\.\d+)/,
 		lookbehind: true
 	};
 
@@ -86,7 +93,7 @@
 		// CAREFUL!
 		// Previewers and Inline color use hexcode and color.
 		'hexcode': {
-			pattern: /\B#(?:[\da-f]{1,2}){3,4}\b/i,
+			pattern: /\B#[\da-f]{3,8}\b/i,
 			alias: 'color'
 		},
 		'color': [
@@ -101,9 +108,10 @@
 				}
 			}
 		],
+		// it's important that there is no boundary assertion after the hex digits
 		'entity': /\\[\da-f]{1,8}/i,
 		'unit': unit,
 		'number': number
 	});
 
-})(Prism);
+}(Prism));
